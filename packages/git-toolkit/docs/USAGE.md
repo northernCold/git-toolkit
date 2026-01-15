@@ -1,13 +1,13 @@
-# GRM 使用指南
+# GTK 使用指南
 
-GRM (Git Release Manager) 是一个 Git 发版工作流自动化 CLI 工具。
+GTK (Git Toolkit) 是一个 Git 发版工作流自动化 CLI 工具。
 
 ## 安装
 
 ### 方式一：全局链接（推荐开发时使用）
 
 ```bash
-cd packages/git-release-manager
+cd packages/git-toolkit
 pnpm install
 pnpm build
 npm link --global
@@ -18,7 +18,7 @@ npm link --global
 ### 方式二：全局安装
 
 ```bash
-cd packages/git-release-manager
+cd packages/git-toolkit
 pnpm install
 pnpm build
 npm install -g .
@@ -27,7 +27,7 @@ npm install -g .
 ### 方式三：开发模式直接运行
 
 ```bash
-cd packages/git-release-manager
+cd packages/git-toolkit
 pnpm install
 pnpm dev release start 1.0.0
 ```
@@ -248,7 +248,7 @@ gtk release finish
 
 ### 环境变量配置
 
-GRM 支持通过 `.env` 文件配置环境变量。
+GTK 支持通过 `.env` 文件配置环境变量。
 
 **创建配置文件：**
 
@@ -270,7 +270,7 @@ JENKINS_URL=http://10.255.254.23:8080/job/popjoy/
 **配置加载顺序：**
 1. 系统环境变量（优先级最高）
 2. 当前工作目录的 `.env` 文件
-3. GRM 安装目录的 `.env` 文件
+3. GTK 安装目录的 `.env` 文件
 
 > 💡 如果未配置 `JENKINS_URL`，命令执行后会显示通用提示而非 Jenkins 链接。
 

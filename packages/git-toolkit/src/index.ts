@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * GRM - Git Release Manager CLI
+ * GTK - Git Toolkit CLI
  * Git 发版工作流自动化工具
  * @module gtk
  */
