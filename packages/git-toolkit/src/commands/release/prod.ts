@@ -72,7 +72,7 @@ export async function prodCommand(inputVersion?: string): Promise<void> {
     }
 
     // 4. 创建 Tag
-    const tagName = `v${version}`;
+    const tagName = version;
     const tagMessage = `Release ${tagName}`;
     
     s.start(`创建 Tag ${tagName}...`);
