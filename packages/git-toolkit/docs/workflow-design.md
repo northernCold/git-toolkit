@@ -1,6 +1,6 @@
 # Git 工作流自动化详细设计
 
-本文档详细描述了 `git-release-manager` 脚本在每个阶段执行的具体 Git 命令及其逻辑逻辑。
+本文档详细描述了 `git-toolkit` 脚本在每个阶段执行的具体 Git 命令及其逻辑。
 
 ## 1. 预生产准备 (`release start <version>`)
 
