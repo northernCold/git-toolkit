@@ -47,9 +47,9 @@
 1. **校验状态**:
    - 确保当前分支为 `p/<version>` 且已推送到远程。
 2. **打 Tag**:
-   - `git tag -a v<version> -m "Release v<version>"`: 创建带有说明的注释标签。
+   - `git tag -a <version> -m "Release <version>"`: 创建带有说明的注释标签（Tag 名直接使用版本号）。
 3. **推送 Tag**:
-   - `git push origin v<version>`.
+   - `git push origin <version>`.
 4. **后续操作**:
    - 提醒用户登录 Jenkins 构建对应的 Tag 任务（生产环境部署）。
 
@@ -69,7 +69,9 @@
    - 确认后执行：
      - `git branch -d p/<version>`: 删除本地发布分支。
      - `git push origin --delete p/<version>`: 删除远程发布分支。
-     - 循环删除已合并的功能分支：`git branch -d <feature-branch>`。
+     - 循环删除已合并的功能分支：
+       - `git branch -d <feature-branch>`: 删除本地分支。
+       - `git push origin --delete <feature-branch>`: 删除远程分支。
 
 ## 5. 优化点说明
 
