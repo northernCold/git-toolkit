@@ -173,7 +173,7 @@ export async function finishCommand(inputVersion?: string): Promise<void> {
       }
     }
 
-    p.outro(pc.green(`✓ 发版 v${version} 流程已完成！`));
+    p.outro(pc.green(`✓ 发版 ${version} 流程已完成！`));
 
   } catch (error) {
     s.stop('操作失败');
