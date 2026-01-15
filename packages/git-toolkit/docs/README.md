@@ -31,9 +31,11 @@ graph TD
 | 指令 | 描述 | 对应 Git 操作 |
 | :--- | :--- | :--- |
 | `release start <version>` | 初始化发版分支并合并功能 | `fetch`, `pull master`, `checkout -b p/v`, `merge <features>`, `push` |
-| `release pre` | 部署到预生产环境 | `checkout pre`, `pull`, `merge p/v`, `push` |
-| `release prod` | 正式发版打标 | `tag -a`, `push --tags` |
-| `release finish` | 完成发版并清理 | `checkout master`, `merge --no-ff p/v`, `push`, `branch -d` |
+| `release pre [version]` | 部署到预生产环境 | `checkout pre`, `pull`, `merge p/v`, `push` |
+| `release prod [version]` | 正式发版打标 | `tag -a`, `push --tags` |
+| `release finish [version]` | 完成发版并清理 | `checkout master`, `merge --no-ff p/v`, `push`, `branch -d` |
+
+> 💡 `[version]` 为可选参数。如果提供版本号，命令会自动切换到对应的发布分支 `p/<version>`。
 
 ## 3. 核心优势
 
@@ -45,5 +47,5 @@ graph TD
 ## 4. 异常处理
 
 - **合并冲突**: 脚本会检测冲突并停止，用户手动解决冲突并 commit 后，可再次运行指令。
-- **环境检查**: 确保当前分支与操作指令匹配（例如 `release pre` 必须在 `p/` 分支执行）。
+- **环境检查**: 确保当前分支与操作指令匹配（例如 `release pre` 需要在 `p/` 分支执行，或通过参数指定版本号自动切换）。
 
