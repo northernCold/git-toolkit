@@ -152,12 +152,22 @@ export async function finishCommand(inputVersion?: string): Promise<void> {
       if (!p.isCancel(cleanupFeatures)) {
         const branches = cleanupFeatures as string[];
         for (const branch of branches) {
-          s.start(`删除分支 ${branch}...`);
+          // 删除本地分支
+          s.start(`删除本地分支 ${branch}...`);
           try {
             await deleteLocalBranch(branch);
-            s.stop(`${branch} 已删除 ✓`);
+            s.stop(`本地分支 ${branch} 已删除 ✓`);
           } catch {
-            s.stop(`${branch} 删除失败`);
+            s.stop(`本地分支 ${branch} 删除失败（可能已删除）`);
+          }
+
+          // 删除远程分支
+          s.start(`删除远程分支 ${branch}...`);
+          try {
+            await deleteRemoteBranch(branch);
+            s.stop(`远程分支 ${branch} 已删除 ✓`);
+          } catch {
+            s.stop(`远程分支 ${branch} 删除失败（可能已删除或不存在）`);
           }
         }
       }

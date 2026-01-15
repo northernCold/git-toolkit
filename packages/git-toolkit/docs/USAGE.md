@@ -212,6 +212,11 @@ gtk release finish 1.2.0
 │  ○ feature/login
 │  ○ feature/dashboard
 │
+◇  本地分支 feature/login 已删除 ✓
+◇  远程分支 feature/login 已删除 ✓
+◇  本地分支 feature/dashboard 已删除 ✓
+◇  远程分支 feature/dashboard 已删除 ✓
+│
 └  ✓ 发版 v1.2.0 流程已完成！
 ```
 
