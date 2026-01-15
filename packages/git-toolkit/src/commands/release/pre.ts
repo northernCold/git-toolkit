@@ -16,13 +16,15 @@ import {
   push,
   branchExists,
   hasConflicts,
+  checkoutReleaseBranch,
 } from '../../utils/git.js';
 import { config } from '../../utils/config.js';
 
 /**
  * 执行 release pre 命令
+ * @param version - 可选的版本号，如果提供则自动切换到对应的发布分支
  */
-export async function preCommand(): Promise<void> {
+export async function preCommand(version?: string): Promise<void> {
   p.intro(pc.bgYellow(pc.black(' 部署到预生产环境 ')));
 
   const s = p.spinner();
@@ -38,19 +40,25 @@ export async function preCommand(): Promise<void> {
     }
     s.stop('工作区干净 ✓');
 
-    // 2. 检查当前分支
-    s.start('检查当前分支...');
-    const currentBranch = await getCurrentBranch();
-    const isRelease = await isOnReleaseBranch();
-    
-    if (!isRelease) {
-      s.stop('分支检查失败');
-      p.cancel(pc.red(`当前分支 ${currentBranch} 不是发布分支 (p/xxx)，请先切换到发布分支`));
-      process.exit(1);
+    // 2. 如果提供了版本号，切换到对应的发布分支
+    let currentBranch: string;
+    if (version) {
+      s.start(`切换到发布分支 p/${version}...`);
+      currentBranch = await checkoutReleaseBranch(version);
+      s.stop(`已切换到发布分支 ${currentBranch} ✓`);
+    } else {
+      // 检查当前分支
+      s.start('检查当前分支...');
+      currentBranch = await getCurrentBranch();
+      const isRelease = await isOnReleaseBranch();
+
+      if (!isRelease) {
+        s.stop('分支检查失败');
+        p.cancel(pc.red(`当前分支 ${currentBranch} 不是发布分支 (p/xxx)，请先切换到发布分支`));
+        process.exit(1);
+      }
+      s.stop(`当前发布分支: ${currentBranch} ✓`);
     }
-    
-    const version = extractVersionFromBranch(currentBranch);
-    s.stop(`当前发布分支: ${currentBranch} ✓`);
 
     // 3. 检查 pre 分支是否存在
     const preExists = await branchExists('pre') || await branchExists('origin/pre');
