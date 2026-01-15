@@ -199,3 +199,27 @@ export async function hasConflicts(): Promise<boolean> {
   return status.includes('UU') || status.includes('AA') || status.includes('DD');
 }
 
+/**
+ * 切换到发布分支（支持从远程拉取）
+ * @param version - 版本号
+ * @returns 分支名
+ */
+export async function checkoutReleaseBranch(version: string): Promise<string> {
+  const branch = `p/${version}`;
+  const localExists = await branchExists(branch);
+  const remoteExists = await branchExists(`origin/${branch}`);
+
+  if (!localExists && !remoteExists) {
+    throw new Error(`发布分支 ${branch} 不存在`);
+  }
+
+  if (localExists) {
+    await checkout(branch);
+  } else {
+    // 本地不存在但远程存在，基于远程创建本地分支
+    await execGit(['checkout', '-b', branch, `origin/${branch}`]);
+  }
+
+  return branch;
+}
+

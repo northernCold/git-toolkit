@@ -24,17 +24,17 @@ export function registerReleaseCommand(program: Command): void {
     .action(startCommand);
 
   release
-    .command('pre')
+    .command('pre [version]')
     .description('部署到预生产环境')
     .action(preCommand);
 
   release
-    .command('prod')
+    .command('prod [version]')
     .description('正式发版打标')
     .action(prodCommand);
 
   release
-    .command('finish')
+    .command('finish [version]')
     .description('完成发版并清理')
     .action(finishCommand);
 }

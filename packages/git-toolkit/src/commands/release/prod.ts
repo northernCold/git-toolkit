@@ -12,13 +12,15 @@ import {
   extractVersionFromBranch,
   createTag,
   pushTag,
+  checkoutReleaseBranch,
 } from '../../utils/git.js';
 import { config } from '../../utils/config.js';
 
 /**
  * 执行 release prod 命令
+ * @param inputVersion - 可选的版本号，如果提供则自动切换到对应的发布分支
  */
-export async function prodCommand(): Promise<void> {
+export async function prodCommand(inputVersion?: string): Promise<void> {
   p.intro(pc.bgGreen(pc.black(' 正式发版打标 ')));
 
   const s = p.spinner();
@@ -34,19 +36,29 @@ export async function prodCommand(): Promise<void> {
     }
     s.stop('工作区干净 ✓');
 
-    // 2. 检查当前分支
-    s.start('检查当前分支...');
-    const currentBranch = await getCurrentBranch();
-    const isRelease = await isOnReleaseBranch();
-    
-    if (!isRelease) {
-      s.stop('分支检查失败');
-      p.cancel(pc.red(`当前分支 ${currentBranch} 不是发布分支 (p/xxx)，请先切换到发布分支`));
-      process.exit(1);
+    // 2. 如果提供了版本号，切换到对应的发布分支
+    let currentBranch: string;
+    let version: string;
+    if (inputVersion) {
+      s.start(`切换到发布分支 p/${inputVersion}...`);
+      currentBranch = await checkoutReleaseBranch(inputVersion);
+      version = inputVersion;
+      s.stop(`已切换到发布分支 ${currentBranch}, 版本: ${version} ✓`);
+    } else {
+      // 检查当前分支
+      s.start('检查当前分支...');
+      currentBranch = await getCurrentBranch();
+      const isRelease = await isOnReleaseBranch();
+
+      if (!isRelease) {
+        s.stop('分支检查失败');
+        p.cancel(pc.red(`当前分支 ${currentBranch} 不是发布分支 (p/xxx)，请先切换到发布分支`));
+        process.exit(1);
+      }
+
+      version = extractVersionFromBranch(currentBranch);
+      s.stop(`当前发布分支: ${currentBranch}, 版本: ${version} ✓`);
     }
-    
-    const version = extractVersionFromBranch(currentBranch);
-    s.stop(`当前发布分支: ${currentBranch}, 版本: ${version} ✓`);
 
     // 3. 确认发版
     const confirmed = await p.confirm({
