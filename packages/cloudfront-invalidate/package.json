@@ -1,0 +1,33 @@
+{
+  "name": "cloudfront-invalidate",
+  "version": "1.0.0",
+  "description": "CloudFront 缓存清除工具 - 清除 AWS CloudFront CDN 缓存",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "cloudfront-invalidate": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "cloudfront",
+    "cdn",
+    "cache",
+    "invalidate",
+    "purge",
+    "aws",
+    "jenkins",
+    "ci"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-cloudfront": "^3.726.1",
+    "commander": "^12.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@10.10.0"
+}
