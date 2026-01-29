@@ -1,0 +1,33 @@
+{
+  "name": "s3-deploy",
+  "version": "1.0.0",
+  "description": "S3 Deploy - 将本地目录上传到 AWS S3 的部署工具",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "s3-deploy": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "s3",
+    "deploy",
+    "upload",
+    "aws",
+    "jenkins",
+    "ci"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.726.1",
+    "@aws-sdk/lib-storage": "^3.726.1",
+    "commander": "^12.1.0",
+    "mime-types": "^2.1.35"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@10.10.0"
+}
